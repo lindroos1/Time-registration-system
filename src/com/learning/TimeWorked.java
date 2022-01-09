@@ -1,6 +1,7 @@
 package com.learning;
+import java.time.Duration;
 import java.time.LocalDate;
 
 public interface TimeWorked {
-    public  Object compute(Storage storage, String id, LocalDate date);
+    public Duration compute(Storage storage, String id, LocalDate date);
 }

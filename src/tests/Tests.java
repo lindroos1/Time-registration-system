@@ -1,8 +1,5 @@
 package tests;
-import com.learning.DailyWorkedTime;
-import com.learning.Entry;
-import com.learning.Storage;
-import com.learning.WeeklyWorkedTime;
+import com.learning.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,12 +9,12 @@ import java.time.LocalDateTime;
 
 public class Tests {
 
-    //init storage
     Storage storage = new Storage();
-
+    DailyWorkedTime dailyWorkedTime = new DailyWorkedTime();
+    WeeklyWorkedTime weeklyWorkedTime = new WeeklyWorkedTime();
+    MonthlyWorkedTime monthlyWorkedTime = new MonthlyWorkedTime();
     @BeforeEach
     void setUp(){
-
         //fill with info to test
         String id = "ivan_id";
         for(int i = 3; i < 10; i++){
@@ -34,7 +31,6 @@ public class Tests {
     @Test
     void WorkedHoursDay(){
         //pas the YY/MM/DD, aka LocalDate obj
-        DailyWorkedTime dailyWorkedTime = new DailyWorkedTime();
         LocalDate date = LocalDate.of(2022, 1, 5);
         Assertions.assertNotNull(dailyWorkedTime.compute(storage, "ivan_d", date));
         System.out.println(storage.getEntries("ivan_d").get(0).getWeek());
@@ -42,16 +38,17 @@ public class Tests {
 
     @Test
     void WorkedHoursWeek(){
-        WeeklyWorkedTime weeklyWorkedTime = new WeeklyWorkedTime();
         LocalDate date = LocalDate.of(2022, 1, 3);
 
-        //5 days from 3th to 8th, every one of them with working time of 5H 30M = 29:10 hours total
+        //5 days from 3th to 8th, every one of them with working time of 5H 50M = 29:10 hours total
         Assertions.assertEquals("PT29H10M", weeklyWorkedTime.compute(storage, "ivan_d", date)
                 .toString());
     }
 
     @Test
     void WorkedHoursMonth(){
-
+        LocalDate date = LocalDate.of(2022, 1, 3);
+        Assertions.assertEquals("PT40H50M", monthlyWorkedTime.compute(storage, "ivan_d", date)
+                .toString());
     }
 }

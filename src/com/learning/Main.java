@@ -1,11 +1,10 @@
 package com.learning;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -16,27 +15,17 @@ public class Main {
         Time time = new Time();
         Entry entry = new Entry();
         Storage storage = new Storage();
+        DailyWorkedTime dailyWorkedTime  = new DailyWorkedTime();
+        WeeklyWorkedTime weeklyWorkedTime = new WeeklyWorkedTime();
+        MonthlyWorkedTime monthlyWorkedTime = new MonthlyWorkedTime();
+        Options options = new Options();
+
+
+        options.get();
+        String option = sc.next();
 
         System.out.println("Enter your id:");
         entry.setId(sc.next());
-
-        System.out.println("When did you come?");
-        /* takes time from the CLI*/
-        LocalTime came = time.takeTime();
-
-        LocalDateTime entered = LocalDateTime.now();
-        entered = LocalDateTime.of(entered.getYear(), entered.getMonth(), 7,
-                came.getHour(), came.getMinute());
-        System.out.println("you came at: " +  entered.toString());
-
-
-        System.out.println("When did you leave");
-        LocalTime Timeleft = time.takeTime();
-        LocalDateTime left = LocalDateTime.of(entered.getYear(), entered.getMonth(),  7,
-                 Timeleft.getHour(), Timeleft.getMinute());
-        System.out.println(left.getDayOfWeek().getDisplayName(TextStyle.FULL , Locale.UK));
-
-        DayOfWeek day = left.getDayOfWeek();
         /*
             if he left after he arrived, and it wasn't sunday nor saturday
 
@@ -47,19 +36,59 @@ public class Main {
             it will assume you came at 10:00 in the morning and left before you arrive, so invalid
             input
          */
+        while(!option.equalsIgnoreCase("exit")){
+            if(option.equalsIgnoreCase("entry")){
+                System.out.println("When did you come?");
 
-        if(left.isAfter(entered)){
-            if(!(day.equals(DayOfWeek.SUNDAY) || day.equals(DayOfWeek.SATURDAY))){
-                entry.setEntered(entered);
-                entry.setLeft(left);
-                entry.computeDuration();
-                storage.put(entry.getId(), entry);
+                /* takes time from the CLI*/
+                LocalTime came = time.takeTime();
+
+                LocalDateTime entered = LocalDateTime.now();
+                /* create localDateTime object with the info from the CLI*/
+                entered = LocalDateTime.of(entered.getYear(), entered.getMonth(), 7,
+                        came.getHour(), came.getMinute());
+
+
+                System.out.println("When did you leave");
+                LocalTime inputLeft = time.takeTime();
+                LocalDateTime left = LocalDateTime.of(entered.getYear(), entered.getMonth(),  7,
+                        inputLeft.getHour(), inputLeft.getMinute());
+
+                DayOfWeek day = left.getDayOfWeek();
+                if(left.isAfter(entered)){
+                    if(!(day.equals(DayOfWeek.SUNDAY) || day.equals(DayOfWeek.SATURDAY))){
+                        entry.setEntered(entered);
+                        entry.setLeft(left);
+                        entry.computeDuration();
+                        storage.put(entry.getId(), entry);
+                    }
+                    else
+                        System.out.println("Invalid input: You are supposed to chill" +
+                                " on the weekend, not work");
+                }
+                else
+                    System.out.println("Invalid input: it is not possible to leave before you came");
             }
-            else
-                System.out.println("Invalid input: You are supposed to chill" +
-                        " on the weekend, not work");
+            if(option.equalsIgnoreCase("dailyWorked")){
+                System.out.println("Enter the day in format YY:MM:DD");
+                System.out.println(dailyWorkedTime.compute(storage, entry.getId(),
+                                LocalDate.parse(sc.next()))
+                        .toString());
+            }
+            if(option.equalsIgnoreCase("weeklyWorked")){
+                System.out.println("Enter a day (monday) in format YY::MM:DD");
+                System.out.println(weeklyWorkedTime.compute(storage, entry.getId(),
+                                LocalDate.parse(sc.next()))
+                        .toString());
+            }
+            if(option.equalsIgnoreCase("monthlyWorked")){
+                System.out.println("Enter the month in format YY::MM:DD");
+                System.out.println(monthlyWorkedTime.compute(storage, entry.getId(),
+                                LocalDate.parse(sc.next()))
+                        .toString());
+            }
+            options.get();
+            option  = sc.next();
         }
-        else
-            System.out.println("Invalid input: it is not possible to leave before you came");
     }
 }
