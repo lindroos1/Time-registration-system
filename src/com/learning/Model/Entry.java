@@ -1,4 +1,4 @@
-package com.learning;
+package com.learning.Model;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -9,7 +9,7 @@ public class Entry {
     private String id;
     private LocalDateTime entered;
     private LocalDateTime left;
-    private Duration hourss;
+    private Duration objectHours;
 
     public int getWeek() {
         return week;
@@ -17,17 +17,17 @@ public class Entry {
 
     private int week;
 
-    public void computeDuration(){
+    public void computeDuration() {
         Duration duration = Duration.between(entered, left);
         //get hours
         long hours = duration.toHours();
         //subtract hours from the whole to obtain minutes
         duration = duration.minusHours(hours);
 
-        System.out.println("You have worked " +  hours +
-                " hours and "+ duration.toMinutes() + " minutes");
-        hourss = Duration.ofHours(hours).plusMinutes(duration.toMinutes());
-        System.out.println("Duration " + hourss);
+        System.out.println("You have worked " + hours +
+                " hours and " + duration.toMinutes() + " minutes");
+        objectHours = Duration.ofHours(hours).plusMinutes(duration.toMinutes());
+        System.out.println("Duration " + objectHours);
         week = entered.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
     }
 
@@ -49,10 +49,10 @@ public class Entry {
     }
 
     public Duration getTimeWorked() {
-        return hourss;
+        return objectHours;
     }
 
-    public LocalDate getDate(){
+    public LocalDate getDate() {
         return LocalDate.of(entered.getYear(), entered.getMonth(), entered.getDayOfMonth());
     }
 }

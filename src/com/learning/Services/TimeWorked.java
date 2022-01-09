@@ -1,4 +1,6 @@
-package com.learning;
+package com.learning.Services;
+import com.learning.Model.Storage;
+
 import java.time.Duration;
 import java.time.LocalDate;
 
