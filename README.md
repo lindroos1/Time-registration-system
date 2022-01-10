@@ -1,6 +1,6 @@
 ## Table of contents
 * [General info](#general-info)
-
+* [How to use](#how-to-use)
 * [Setup](#setup)
 
 ## General info
@@ -16,6 +16,9 @@ TimeWorked(calculates the working time when entry is added).
 As structure for the project was missing, I opted for MVCS - Model holds the representation of a DB, View renders the input if validated and requested, 
 the controller accepts the input and depending on the input either calls a Service to compute and add, or just calls the View to render the
 output.	
+
+## How to use
+You should input date and hour(if needed) as this - 2022-01-01T10:00:00. The "T" shows Java that this is a time.
 
 	
 ## Setup
