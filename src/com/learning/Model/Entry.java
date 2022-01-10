@@ -23,11 +23,7 @@ public class Entry {
         long hours = duration.toHours();
         //subtract hours from the whole to obtain minutes
         duration = duration.minusHours(hours);
-
-        System.out.println("You have worked " + hours +
-                " hours and " + duration.toMinutes() + " minutes");
         objectHours = Duration.ofHours(hours).plusMinutes(duration.toMinutes());
-        System.out.println("Duration " + objectHours);
         week = entered.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
     }
 

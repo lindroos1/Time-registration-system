@@ -1,4 +1,6 @@
-package com.learning.Services;
+package com.learning.Services.Validator;
+
+import com.learning.Services.Validator.Validator;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;

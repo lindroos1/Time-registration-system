@@ -1,4 +1,4 @@
-package com.learning.Services;
+package com.learning.Services.Entry;
 
 import com.learning.Model.Entry;
 import com.learning.Model.Storage;

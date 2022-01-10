@@ -3,10 +3,11 @@ package com.learning;
 import com.learning.Helpres.Options;
 import com.learning.Model.Entry;
 import com.learning.Model.Storage;
-import com.learning.Services.*;
+import com.learning.Services.Entry.EntryService;
+import com.learning.Services.Time.*;
+import com.learning.Services.Validator.ValidatorImpl;
 import com.learning.View.View;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Scanner;
@@ -23,6 +24,7 @@ public class Controller {
         Options options = new Options();
         View view = new View();
         ValidatorImpl validator = new ValidatorImpl();
+        OvertimeImpl overtime = new OvertimeImpl();
 
 
         /* prints the options so the user knows how to use the app */
@@ -80,6 +82,11 @@ public class Controller {
                 view.timeWorked(monthlyWorkedTime.compute(storage, entry.getId(),
                         LocalDate.parse(sc.next())));
 
+            }
+            if(option.equalsIgnoreCase("overAchiever")){
+                view.enterMonth();
+                LocalDate date = LocalDate.parse(sc.next());
+                view.overAchieverRender(overtime.compute(storage,date));
             }
             options.get();
             option = sc.next();

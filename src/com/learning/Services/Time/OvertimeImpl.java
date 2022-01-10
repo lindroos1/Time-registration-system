@@ -1,10 +1,12 @@
-package com.learning.Services;
+package com.learning.Services.Time;
 
 import com.learning.Model.Storage;
 
 import java.time.Duration;
 import java.time.LocalDate;
 
+/* we brake the rules by not returning a duration, but this way it is easier
+*  to return two arguments - the id and the time*/
 public class OvertimeImpl implements Overtime {
     private final MonthlyWorkedTime monthlyWorkedTime = new MonthlyWorkedTime();
     private Duration duration = Duration.ZERO;
@@ -12,6 +14,7 @@ public class OvertimeImpl implements Overtime {
 
     @Override
     public String compute(Storage storage, LocalDate date) {
+        //TODO: catch the case when two people overachieved
         for (var entry : storage.getStorage().entrySet()) {
             var localTime = monthlyWorkedTime.compute(storage, entry.getKey(), date);
             if (localTime.compareTo(duration) >= 1) {

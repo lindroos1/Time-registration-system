@@ -1,10 +1,10 @@
 package tests;
 import com.learning.Model.Entry;
 import com.learning.Model.Storage;
-import com.learning.Services.DailyWorkedTime;
-import com.learning.Services.MonthlyWorkedTime;
-import com.learning.Services.OvertimeImpl;
-import com.learning.Services.WeeklyWorkedTime;
+import com.learning.Services.Time.DailyWorkedTime;
+import com.learning.Services.Time.MonthlyWorkedTime;
+import com.learning.Services.Time.OvertimeImpl;
+import com.learning.Services.Time.WeeklyWorkedTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +19,7 @@ public class Tests {
     WeeklyWorkedTime weeklyWorkedTime = new WeeklyWorkedTime();
     MonthlyWorkedTime monthlyWorkedTime = new MonthlyWorkedTime();
     OvertimeImpl overtime = new OvertimeImpl();
+
     @BeforeEach
     void setUp(){
         //fill with info to test
@@ -47,8 +48,7 @@ public class Tests {
     void WorkedHoursDay(){
         //pas the YY/MM/DD, aka LocalDate obj
         LocalDate date = LocalDate.of(2022, 1, 5);
-        Assertions.assertNotNull(dailyWorkedTime.compute(storage, "ivan_d", date));
-        System.out.println(storage.getEntries("ivan_d").get(0).getWeek());
+        Assertions.assertNotNull(dailyWorkedTime.compute(storage, "ivan_id", date));
     }
 
     @Test
@@ -56,20 +56,21 @@ public class Tests {
         LocalDate date = LocalDate.of(2022, 1, 3);
 
         //5 days from 3th to 8th, every one of them with working time of 5H 50M = 29:10 hours total
-        Assertions.assertEquals("PT29H10M", weeklyWorkedTime.compute(storage, "ivan_d", date)
+        Assertions.assertEquals("PT29H10M", weeklyWorkedTime.compute(storage, "ivan_id", date)
                 .toString());
     }
 
     @Test
     void WorkedHoursMonth(){
         LocalDate date = LocalDate.of(2022, 1, 3);
-        Assertions.assertEquals("PT40H50M", monthlyWorkedTime.compute(storage, "ivan_d", date)
+        Assertions.assertEquals("PT40H50M", monthlyWorkedTime.compute(storage, "ivan_id", date)
                 .toString());
     }
 
 
     @Test
     void OverAchieving(){
-        System.out.println(overtime.compute(storage, LocalDate.of(2022, 1, 3)));
+        Assertions.assertTrue((overtime.compute(storage, LocalDate.of(2022, 1, 3))
+                .contains("265 hours and 30 minutes")));
     }
 }

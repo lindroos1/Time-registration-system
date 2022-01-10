@@ -39,6 +39,9 @@ public class View {
     public void enterMonth() {
         System.out.println("Enter the month in format YY:MM:DD");
     }
+    public void overAchieverRender(String name){
+        System.out.println(name);
+    }
 
     public void differentDays() {
         System.out.println("Invalid input: You come and leave on a different days!");
